@@ -89,6 +89,12 @@ class DatabaseManager:
         cur.execute("SELECT * FROM prizes WHERE user = 0 ORDER BY RANDOM() ")
         return cur.fetchall()[0]
     
+    def get_winners_count(self, prize_id):
+        conn = sqlite3.connect(self.database)
+        with conn:
+            cur = conn.cursor()
+            cur.execute('SELECT COUNT(*) FROM winners WHERE prize_id = ?', (prize_id, ))
+            return cur.fetchall()[0][0]
   
 def hide_img(img_name):
     image = cv2.imread(f'img/{img_name}')
